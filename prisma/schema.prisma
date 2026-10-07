@@ -1,0 +1,178 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String            @id @default(cuid())
+  email        String            @unique
+  passwordHash String
+  name         String
+  level        String            @default("B1") // A2, B1, B2
+  dailyMinutes Int               @default(25)
+  timezone     String            @default("Asia/Ho_Chi_Minh")
+  createdAt    DateTime          @default(now())
+  dailyPlans   DailyPlan[]
+  attempts     Attempt[]
+  mistakes     Mistake[]
+  reviews      ReviewSchedule[]
+  vocabulary   Vocabulary[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Lesson {
+  id               String      @id @default(cuid())
+  slug             String      @unique
+  topic            String
+  level            String      // A2, B1, B2
+  title            String
+  description      String
+  objectives       String[]
+  estimatedMinutes Int         @default(15)
+  theory           String      @db.Text
+  examplesJson     Json
+  exercises        Exercise[]
+
+  @@map("lessons")
+}
+
+model Exercise {
+  id               String    @id @default(cuid())
+  lessonId         String
+  lesson           Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  promptVi         String
+  referenceAnswers String[]
+  hint             String?
+  topic            String
+  grammarCategory  String
+  attempts         Attempt[]
+  mistakes         Mistake[]
+
+  @@index([lessonId])
+  @@map("exercises")
+}
+
+model DailyPlan {
+  id         String          @id @default(cuid())
+  userId     String
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  localDate  String          // YYYY-MM-DD in Asia/Ho_Chi_Minh
+  status     String          @default("in_progress") // in_progress, completed
+  createdAt  DateTime        @default(now())
+  items      DailyPlanItem[]
+
+  @@unique([userId, localDate])
+  @@map("daily_plans")
+}
+
+model DailyPlanItem {
+  id               String    @id @default(cuid())
+  dailyPlanId      String
+  dailyPlan        DailyPlan @relation(fields: [dailyPlanId], references: [id], onDelete: Cascade)
+  kind             String    // lesson, practice, review
+  resourceId       String
+  title            String
+  estimatedMinutes Int       @default(5)
+  completed        Boolean   @default(false)
+  completedAt      DateTime?
+  sortOrder        Int       @default(0)
+
+  @@index([dailyPlanId])
+  @@map("daily_plan_items")
+}
+
+model Attempt {
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId         String
+  exercise           Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  lessonId           String
+  promptVi           String
+  answer             String   @db.Text
+  verdict            String   // correct, acceptable, needs_improvement
+  score              Int
+  correctedSentence  String   @db.Text
+  naturalAlternative String   @db.Text
+  explanationVi      String   @db.Text
+  errorsJson         Json     @default("[]")
+  phrasesJson        Json     @default("[]")
+  createdAt          DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@map("attempts")
+}
+
+model Mistake {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId  String
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  attemptId   String
+  category    String   @default("Grammar")
+  original    String   @db.Text
+  correction  String   @db.Text
+  explanation String   @db.Text
+  lessonTitle String
+  repetitions Int      @default(1)
+  nextDueAt   DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([userId, category])
+  @@map("mistakes")
+}
+
+model ReviewSchedule {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemType       String    @default("sentence") // mistake, sentence, phrase
+  itemId         String
+  promptVi       String
+  expectedAnswer String    @db.Text
+  notes          String?
+  intervalDays   Int       @default(1)
+  repetitions    Int       @default(0)
+  dueAt          DateTime
+  lastRating     String?   // again, hard, good, easy
+
+  @@unique([userId, itemType, itemId])
+  @@index([userId, dueAt])
+  @@map("review_schedule")
+}
+
+model Vocabulary {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phrase    String
+  meaningVi String
+  exampleEn String   @db.Text
+  topic     String   @default("General")
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("vocabulary")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
+}

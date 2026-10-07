@@ -1,0 +1,292 @@
+{
+  "users": [
+    {
+      "id": "user-default-1",
+      "email": "kelvin@studyenglish.local",
+      "passwordHash": "$2b$10$.T/UaHLHdSnJYkiTn1t/zut1m7txvDD1R9ce0YFfzus16gAhWQnIK",
+      "name": "Kelvin",
+      "level": "B1",
+      "dailyMinutes": 25,
+      "timezone": "Asia/Ho_Chi_Minh",
+      "createdAt": "2026-10-07T04:17:44.113Z"
+    }
+  ],
+  "dailyPlans": [
+    {
+      "id": "plan-user-default-1-2026-10-07",
+      "userId": "user-default-1",
+      "localDate": "2026-10-07",
+      "status": "in_progress",
+      "items": [
+        {
+          "id": "item-1791346667025-1",
+          "dailyPlanId": "plan-user-default-1-2026-10-07",
+          "kind": "lesson",
+          "resourceId": "work-status-updates",
+          "title": "Theory & Lesson: Project Progress Updates & Status Reports (Present Perfect)",
+          "estimatedMinutes": 8,
+          "completed": false,
+          "sortOrder": 1
+        },
+        {
+          "id": "item-1791346667025-2",
+          "dailyPlanId": "plan-user-default-1-2026-10-07",
+          "kind": "practice",
+          "resourceId": "work-status-updates",
+          "title": "Sentence Practice: Work & Professional",
+          "estimatedMinutes": 10,
+          "completed": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "item-1791346667025-3",
+          "dailyPlanId": "plan-user-default-1-2026-10-07",
+          "kind": "review",
+          "resourceId": "daily-review",
+          "title": "Spaced Repetition (2 sentences due)",
+          "estimatedMinutes": 5,
+          "completed": false,
+          "sortOrder": 3
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "userId": "user-default-1",
+      "exerciseId": "ex-work-1",
+      "lessonId": "work-status-updates",
+      "promptVi": "Tôi đã gửi tài liệu cập nhật cho toàn bộ nhóm qua email rồi.",
+      "answer": "I sent document updated to all group by email",
+      "verdict": "needs_improvement",
+      "score": 60,
+      "correctedSentence": "I sent the updated document to the whole group by email.",
+      "naturalAlternative": "I've already emailed the updated document to the entire team.",
+      "explanationVi": "Câu của bạn giữ được ý chính nhưng mắc một số lỗi về ngữ pháp: thiếu mạo từ 'the', sai thứ tự từ trong cụm danh từ ('document updated' thành 'updated document'), và dùng từ 'group' chưa tự nhiên bằng 'team' trong ngữ cảnh công việc.",
+      "errors": [
+        {
+          "category": "Word Order",
+          "originalSpan": "document updated",
+          "suggestion": "updated document",
+          "explanationVi": "Tính từ trong tiếng Anh phải đứng trước danh từ mà nó bổ nghĩa."
+        },
+        {
+          "category": "Missing Article",
+          "originalSpan": "sent document",
+          "suggestion": "sent the document",
+          "explanationVi": "Cần thêm mạo từ 'the' trước danh từ xác định 'document'."
+        },
+        {
+          "category": "Vocabulary",
+          "originalSpan": "all group",
+          "suggestion": "the whole team",
+          "explanationVi": "Trong môi trường làm việc, từ 'team' (nhóm/đội) phù hợp hơn 'group', và dùng 'the whole' sẽ tự nhiên hơn 'all'."
+        }
+      ],
+      "phrases": [
+        {
+          "phrase": "updated document",
+          "meaningVi": "tài liệu cập nhật",
+          "exampleEn": "Please review the updated document before the meeting."
+        },
+        {
+          "phrase": "send via email",
+          "meaningVi": "gửi qua email",
+          "exampleEn": "I will send the report via email this afternoon."
+        }
+      ],
+      "id": "att-1791360940476-z1iqf",
+      "createdAt": "2026-10-07T08:15:40.476Z"
+    },
+    {
+      "userId": "user-default-1",
+      "exerciseId": "ex-work-1",
+      "lessonId": "mistake-practice",
+      "promptVi": "Tôi đã gửi tài liệu cập nhật cho toàn bộ nhóm qua email rồi.",
+      "answer": "I sent the updated document to the whole group by email.",
+      "verdict": "acceptable",
+      "score": 85,
+      "correctedSentence": "I sent the updated document to the whole team by email.",
+      "naturalAlternative": "I've already emailed the updated document to the entire team.",
+      "explanationVi": "Câu trả lời của bạn đúng về mặt ngữ pháp và truyền tải đầy đủ ý nghĩa, nhưng chưa thể hiện từ 'đã' (already) và 'nhóm' (team) trong câu gốc có thể dùng từ 'team' tự nhiên hơn 'group'.",
+      "errors": [
+        {
+          "category": "missing_nuance",
+          "originalSpan": "sent",
+          "suggestion": "have already sent",
+          "explanationVi": "Thiếu từ 'already' để thể hiện chữ 'đã ... rồi' trong tiếng Việt."
+        }
+      ],
+      "phrases": [
+        {
+          "phrase": "updated document",
+          "meaningVi": "tài liệu cập nhật",
+          "exampleEn": "Please review the updated document before the meeting."
+        },
+        {
+          "phrase": "via email",
+          "meaningVi": "qua email",
+          "exampleEn": "I received the contract via email yesterday."
+        }
+      ],
+      "id": "att-1791365776174-j09th",
+      "createdAt": "2026-10-07T09:36:16.174Z"
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "mis-1791360940476",
+      "userId": "user-default-1",
+      "exerciseId": "ex-work-1",
+      "attemptId": "att-1791360940476-z1iqf",
+      "category": "Word Order",
+      "original": "I sent document updated to all group by email",
+      "correction": "I sent the updated document to the whole group by email.",
+      "explanation": "Câu của bạn giữ được ý chính nhưng mắc một số lỗi về ngữ pháp: thiếu mạo từ 'the', sai thứ tự từ trong cụm danh từ ('document updated' thành 'updated document'), và dùng từ 'group' chưa tự nhiên bằng 'team' trong ngữ cảnh công việc.",
+      "lessonTitle": "Project Progress Updates & Status Reports (Present Perfect)",
+      "repetitions": 1,
+      "nextDueAt": "2026-10-08T08:15:40.476Z",
+      "createdAt": "2026-10-07T08:15:40.476Z",
+      "mastered": true,
+      "masteredAt": "2026-10-07T09:36:17.215Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "userId": "user-default-1",
+      "itemType": "sentence",
+      "itemId": "ex-work-1",
+      "promptVi": "Tôi đã gửi tài liệu cập nhật cho toàn bộ nhóm qua email rồi.",
+      "expectedAnswer": "I have already sent the updated document to the whole team via email.",
+      "notes": "Present Perfect structure: have + V3/ed + already",
+      "intervalDays": 1,
+      "repetitions": 1,
+      "dueAt": "2026-10-07T04:17:44.113Z"
+    },
+    {
+      "id": "rev-2",
+      "userId": "user-default-1",
+      "itemType": "sentence",
+      "itemId": "ex-dev-1",
+      "promptVi": "Lỗi này xuất hiện khi token hết hạn và người dùng cố gắng làm mới trang.",
+      "expectedAnswer": "This error occurs when the token expires and the user tries to refresh the page.",
+      "notes": "Time clause structure: when token expires",
+      "intervalDays": 3,
+      "repetitions": 2,
+      "dueAt": "2026-10-07T04:17:44.113Z"
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "voc-1",
+      "userId": "user-default-1",
+      "phrase": "reschedule the meeting to...",
+      "meaningVi": "move or postpone meeting to a new time",
+      "exampleEn": "We need to reschedule the meeting to Thursday afternoon.",
+      "topic": "Work & Professional",
+      "createdAt": "2026-10-07T04:17:44.113Z"
+    },
+    {
+      "id": "voc-2",
+      "userId": "user-default-1",
+      "phrase": "occur when...",
+      "meaningVi": "happen or take place when a condition is met",
+      "exampleEn": "The bug occurs when the user clicks the button rapidly.",
+      "topic": "Developer & Tech",
+      "createdAt": "2026-10-07T04:17:44.113Z"
+    }
+  ],
+  "lessonProgress": {
+    "lesson-daily-1": {
+      "status": "completed",
+      "completedAt": "2026-10-07T04:17:44.113Z"
+    },
+    "lesson-work-1": {
+      "status": "in_progress"
+    }
+  },
+  "customLessons": [
+    {
+      "id": "lesson-custom-1791371314929",
+      "slug": "custom-1791371314929",
+      "topic": "Tech & Professional Interview",
+      "level": "B1",
+      "title": "Interview Scenario: Tôi sắp phỏng vấn vị trí Senior Backend Devel...",
+      "description": "Essential sentences and polite expressions for software engineering and technical interviews.",
+      "objectives": [
+        "Articulate past engineering experience using Present Perfect and Past Simple",
+        "Explain architecture trade-offs, system scalability, and bug troubleshooting clearly"
+      ],
+      "estimatedMinutes": 15,
+      "theory": "In engineering interviews, use the **STAR method** (Situation, Task, Action, Result) with active verbs:\n- Highlight impact: `I spearheaded the migration to...` / `This reduced API response time by 40%.`\n- Describe technical choices: `We chose Redis over Memcached because...`\n- Handle unknown answers politely: `While I haven't worked directly with X, I have extensive experience in similar patterns like Y.`",
+      "examples": [
+        {
+          "vi": "Tôi có hơn 4 năm kinh nghiệm làm việc với kiến trúc microservices và Node.js.",
+          "en": "I have over four years of experience working with microservices architecture and Node.js."
+        },
+        {
+          "vi": "Chúng tôi đã tối ưu hóa các câu truy vấn cơ sở dữ liệu để giảm độ trễ cho người dùng.",
+          "en": "We optimized database queries to significantly reduce latency for end users."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-custom-1791371314929-1",
+          "promptVi": "Tôi đã lãnh đạo việc di chuyển hệ thống sang điện toán đám mây vào năm ngoái.",
+          "referenceAnswers": [
+            "I led the system migration to the cloud last year.",
+            "I spearheaded our cloud migration initiative last year."
+          ],
+          "hint": "led the migration / spearheaded",
+          "topic": "Tech & Professional Interview",
+          "grammarCategory": "Past Simple with Action Verbs"
+        },
+        {
+          "id": "ex-custom-1791371314929-2",
+          "promptVi": "Điểm mạnh nhất của tôi là khả năng phân tích và xử lý các sự cố phức tạp trong production.",
+          "referenceAnswers": [
+            "My greatest strength is troubleshooting complex incidents in production environments.",
+            "My key strength is analyzing and resolving complex production issues efficiently."
+          ],
+          "hint": "troubleshooting complex incidents, production environments",
+          "topic": "Tech & Professional Interview",
+          "grammarCategory": "Gerund as Subject Complement"
+        },
+        {
+          "id": "ex-custom-1791371314929-3",
+          "promptVi": "Bạn có thể cho tôi biết thêm về cấu trúc nhóm và quy trình deploy hiện tại không?",
+          "referenceAnswers": [
+            "Could you tell me more about the team structure and current deployment workflow?",
+            "Could you share more details about your team structure and deployment pipeline?"
+          ],
+          "hint": "team structure, deployment workflow / pipeline",
+          "topic": "Tech & Professional Interview",
+          "grammarCategory": "Polite Inquiry (Could you tell me)"
+        },
+        {
+          "id": "ex-custom-1791371314929-4",
+          "promptVi": "Chúng tôi đã giải quyết tình trạng tắc nghẽn bộ nhớ bằng cách triển khai cơ chế caching.",
+          "referenceAnswers": [
+            "We resolved the memory bottleneck by implementing a caching layer.",
+            "We solved the memory leak by introducing Redis caching."
+          ],
+          "hint": "resolved the memory bottleneck, by implementing",
+          "topic": "Tech & Professional Interview",
+          "grammarCategory": "Preposition 'by' + Gerund"
+        },
+        {
+          "id": "ex-custom-1791371314929-5",
+          "promptVi": "Tôi luôn hào hứng học hỏi các công nghệ mới và chia sẻ kiến thức với đồng nghiệp.",
+          "referenceAnswers": [
+            "I am always excited to learn new technologies and share knowledge with my teammates.",
+            "I'm eager to adopt new technologies and mentor fellow team members."
+          ],
+          "hint": "excited to learn, share knowledge with teammates",
+          "topic": "Tech & Professional Interview",
+          "grammarCategory": "Adjective + Infinitive"
+        }
+      ]
+    }
+  ]
+}
