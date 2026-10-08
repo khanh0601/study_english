@@ -47,6 +47,27 @@
   - Tùy chọn trình độ CEFR: `A2` (Cơ bản), `B1` (Trung cấp), `B2` (Nâng cao).
   - Gemini AI tạo ra bộ 5 câu tự nhiên, kèm lý thuyết ngữ cảnh, câu ví dụ thực tế và tự động lưu vào cơ sở dữ liệu để hỗ trợ đầy đủ cả 5 chế độ bài tập (Dịch câu, Sắp xếp câu, Điền từ, Nghe - chép, Shadowing).
 
+### 🎬 Hạng mục 5: Video Shadowing & Dictation Lab (Học & Nhại âm qua Video YouTube) [HOÀN THÀNH ✓]
+- [x] **Thư viện 5 video tuyển chọn kinh điển cho người mới bắt đầu (`/watch`):**
+  - Steve Jobs: Connecting the Dots & Love What You Do (Inspirational - A2/B1).
+  - Daily English: Ordering Coffee & Snacks at a Cafe (Giao tiếp đời thường - A2).
+  - Job Interview: How to Answer "Tell Me About Yourself" (Phỏng vấn xin việc - B1).
+  - Tech English: Daily Scrum Standup & Bug Status Update (Tiếng Anh cho Developer - B1).
+  - Workplace English: Making Polite Inquiries & Scheduling Meetings (Công sở chuyên nghiệp - A2/B1).
+- [x] **Trình phát video thông minh đồng bộ từng câu (Sentence-by-Sentence Player):**
+  - Tích hợp YouTube Player API, tự động tua video đến chính xác từng câu khi click.
+  - Chế độ **Loop sentence (Lặp lại câu)** & **Auto-pause (Tự dừng ở cuối câu)** để người học kịp nhại âm.
+  - Tùy chỉnh tốc độ phát (`0.75x`, `1.0x`, `1.25x`).
+- [x] **3 chế độ luyện tập đa năng cho từng câu trong video:**
+  - 🎙️ **Voice Shadowing**: Nghe người thật nói → Bấm Mic nhại lại → Phân tích độ chính xác phát âm và tô màu từng từ đúng/sai.
+  - 🎧 **Video Dictation**: Tự động ẩn phụ đề → Nghe đoạn trích video → Gõ lại chính xác từng từ với đối chiếu trực tiếp.
+  - ✍️ **Translation & Vocabulary**: Đọc nghĩa tiếng Việt, học các cụm từ đắt giá (collocations/idioms) kèm 1-click lưu vào Kho từ vựng (`/vocabulary`).
+- [x] **Phân quyền Quản trị viên & Quản lý Video (Admin Role & Video CMS):**
+  - Gán quyền `role: "admin"` cho tài khoản quản trị (`kelvin@studyenglish.local`) kèm huy hiệu `ADMIN` nổi bật.
+  - Bảng điều khiển riêng cho Admin ở đầu trang `/watch`: Nhập link YouTube, chọn Chủ đề (Topic), trình độ (A2/B1/B2) và tiêu đề tùy chỉnh.
+  - Nút **Sửa thông tin video** (Edit) và **Xóa video** (Delete) trực tiếp trên từng thẻ video trong thư viện (bảo vệ bằng server-side session check tại `/api/videos/[id]`).
+  - Học viên thông thường (`role: "user"`) có giao diện sạch sẽ, tập trung 100% vào việc học, không bị lộ các tính năng quản trị.
+
 ---
 
 ## 2. Kiến trúc giải pháp Âm thanh (Audio Architecture ADR)

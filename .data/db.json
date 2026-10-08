@@ -8,7 +8,8 @@
       "level": "B1",
       "dailyMinutes": 25,
       "timezone": "Asia/Ho_Chi_Minh",
-      "createdAt": "2026-10-07T04:17:44.113Z"
+      "createdAt": "2026-10-07T04:17:44.113Z",
+      "role": "admin"
     }
   ],
   "dailyPlans": [
@@ -41,6 +42,44 @@
         {
           "id": "item-1791346667025-3",
           "dailyPlanId": "plan-user-default-1-2026-10-07",
+          "kind": "review",
+          "resourceId": "daily-review",
+          "title": "Spaced Repetition (2 sentences due)",
+          "estimatedMinutes": 5,
+          "completed": false,
+          "sortOrder": 3
+        }
+      ]
+    },
+    {
+      "id": "plan-user-default-1-2026-10-08",
+      "userId": "user-default-1",
+      "localDate": "2026-10-08",
+      "status": "in_progress",
+      "items": [
+        {
+          "id": "item-1791430265476-1",
+          "dailyPlanId": "plan-user-default-1-2026-10-08",
+          "kind": "lesson",
+          "resourceId": "work-status-updates",
+          "title": "Theory & Lesson: Project Progress Updates & Status Reports (Present Perfect)",
+          "estimatedMinutes": 8,
+          "completed": false,
+          "sortOrder": 1
+        },
+        {
+          "id": "item-1791430265476-2",
+          "dailyPlanId": "plan-user-default-1-2026-10-08",
+          "kind": "practice",
+          "resourceId": "work-status-updates",
+          "title": "Sentence Practice: Work & Professional",
+          "estimatedMinutes": 10,
+          "completed": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "item-1791430265476-3",
+          "dailyPlanId": "plan-user-default-1-2026-10-08",
           "kind": "review",
           "resourceId": "daily-review",
           "title": "Spaced Repetition (2 sentences due)",
@@ -288,5 +327,6 @@
         }
       ]
     }
-  ]
+  ],
+  "deletedVideoIds": []
 }

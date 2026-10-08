@@ -13,6 +13,7 @@ export const translations = {
     navReview: "Spaced Review",
     navMistakes: "Mistake Notebook",
     navVocabulary: "Phrase Bank",
+    navVideoShadowing: "Video Shadowing",
     navTutor: "AI Tutor",
     navStatistics: "Statistics",
     navLogout: "Log out",
@@ -136,6 +137,21 @@ export const translations = {
     suggestionBaggage: "Airport Customs: Lost Baggage Claim",
     suggestionRestaurant: "Fine Dining: Wine Pairing & Allergy Inquiries",
 
+    // Video Shadowing Lab
+    watchTitle: "Video Shadowing & Dictation Lab",
+    watchSubtitle: "Master native rhythm, natural intonation, and linking sounds by shadowing real-world YouTube excerpts.",
+    pasteYouTubeUrl: "Paste any YouTube link here to practice (e.g., https://www.youtube.com/watch?v=...)",
+    importVideoBtn: "Import & Practice",
+    importingVideo: "Extracting subtitles & translating with AI...",
+    curatedVideos: "Curated Beginner Lessons",
+    startVideoLesson: "Start Shadowing",
+    loopSentence: "Loop sentence",
+    autoPause: "Auto-pause at sentence end",
+    playbackSpeed: "Speed",
+    replaySentence: "Replay (R)",
+    dictationVideoInstruction: "Type the exact English words spoken in the video snippet:",
+    shadowingVideoInstruction: "Listen to the native speaker, then click the Mic and repeat the exact sentence aloud:",
+
     // Spaced Review
     reviewTitle: "Spaced Repetition Review",
     reviewSubtitle: "Review sentences and phrases before you forget them, scheduled via SM-2 retention algorithm.",
@@ -219,6 +235,7 @@ export const translations = {
     navReview: "Ôn tập ngắt quãng",
     navMistakes: "Sổ tay lỗi sai",
     navVocabulary: "Kho cụm từ",
+    navVideoShadowing: "Luyện nói qua Video",
     navTutor: "Trợ lý AI Coach",
     navStatistics: "Thống kê",
     navLogout: "Đăng xuất",
@@ -341,6 +358,21 @@ export const translations = {
     suggestionDeadline: "Xin gia hạn deadline dự án với khách hàng Mỹ",
     suggestionBaggage: "Sân bay: Xử lý thất lạc hành lý tại quầy thủ tục",
     suggestionRestaurant: "Nhà hàng cao cấp: Chọn rượu vang & hỏi món ăn dị ứng",
+
+    // Video Shadowing Lab
+    watchTitle: "Video Shadowing & Dictation Lab",
+    watchSubtitle: "Nắm bắt ngữ điệu tự nhiên, nối âm và phản xạ nói bằng cách nhại âm theo các đoạn video người thật trên YouTube.",
+    pasteYouTubeUrl: "Dán link YouTube bất kỳ để tự tạo bài học (VD: https://www.youtube.com/watch?v=...)",
+    importVideoBtn: "Nhập video & Luyện tập",
+    importingVideo: "Đang trích xuất phụ đề & dịch câu song ngữ...",
+    curatedVideos: "Thư viện video chọn lọc cho người mới",
+    startVideoLesson: "Luyện video này",
+    loopSentence: "Lặp lại câu này",
+    autoPause: "Tự dừng ở cuối câu",
+    playbackSpeed: "Tốc độ",
+    replaySentence: "Nghe lại (R)",
+    dictationVideoInstruction: "Gõ lại chính xác các từ tiếng Anh được nói trong đoạn video trên:",
+    shadowingVideoInstruction: "Lắng nghe đoạn video, sau đó bấm Mic và nói nhại lại theo ngữ điệu:",
 
     // Spaced Review
     reviewTitle: "Ôn tập lặp lại ngắt quãng (Spaced Repetition)",

@@ -20,11 +20,13 @@ export interface SessionUser {
   name: string;
   level: "A2" | "B1" | "B2";
   dailyMinutes: number;
+  role?: "admin" | "user";
 }
 
 // 1. Generate Access Token (JWT, 15m)
 export async function generateAccessToken(user: SessionUser): Promise<string> {
-  return await new SignJWT({ ...user })
+  const role = user.role || (user.email === "kelvin@studyenglish.local" ? "admin" : "user");
+  return await new SignJWT({ ...user, role })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(ACCESS_TOKEN_EXPIRY)
@@ -82,7 +84,15 @@ export async function verifyAccessToken(token: string): Promise<SessionUser | nu
     const { payload } = await jwtVerify(token, key, {
       algorithms: ["HS256"],
     });
-    return payload as unknown as SessionUser;
+    const user = payload as unknown as SessionUser;
+    if (user) {
+      if (!user.role && user.email === "kelvin@studyenglish.local") {
+        user.role = "admin";
+      } else if (!user.role) {
+        user.role = "user";
+      }
+    }
+    return user;
   } catch {
     return null;
   }
@@ -124,6 +134,7 @@ export async function getSession(): Promise<SessionUser | null> {
       name: dbUser.name,
       level: (dbUser.level as "A2" | "B1" | "B2") || "B1",
       dailyMinutes: dbUser.dailyMinutes || 25,
+      role: (dbUser as any).role || (dbUser.email === "kelvin@studyenglish.local" ? "admin" : "user"),
     };
 
     // Issue new access token seamlessly

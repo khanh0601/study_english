@@ -57,12 +57,14 @@ export async function POST(request: Request) {
     }
 
     // Set secure HTTP-only cookie with JWT session
+    const role = (user as any).role || (user.email === "kelvin@studyenglish.local" ? "admin" : "user");
     await setSession({
       id: user.id,
       email: user.email,
       name: user.name,
       level: (user.level as "A2" | "B1" | "B2") || "B1",
       dailyMinutes: user.dailyMinutes || 25,
+      role,
     });
 
     return NextResponse.json({

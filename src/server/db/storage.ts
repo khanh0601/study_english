@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
 import { SEED_LESSONS, SeedLesson } from "./seeds";
+import { SEED_VIDEO_LESSONS, VideoLesson, VideoSentence } from "./video-seeds";
+export type { VideoLesson, VideoSentence };
 
 export interface User {
   id: string;
@@ -12,6 +14,7 @@ export interface User {
   dailyMinutes: number;
   timezone: string;
   createdAt: string;
+  role?: "admin" | "user";
 }
 
 export interface DailyPlanItem {
@@ -111,6 +114,8 @@ export interface DBData {
   reviews: ReviewItem[];
   vocabulary: SavedVocabulary[];
   customLessons?: SeedLesson[];
+  customVideos?: VideoLesson[];
+  deletedVideoIds?: string[];
   lessonProgress: Record<string, { status: "not_started" | "in_progress" | "completed"; completedAt?: string }>;
 }
 
@@ -137,6 +142,7 @@ function getInitialDB(): DBData {
     dailyMinutes: 25,
     timezone: "Asia/Ho_Chi_Minh",
     createdAt: new Date().toISOString(),
+    role: "admin",
   };
 
   return {
@@ -302,6 +308,92 @@ export function saveCustomLesson(lesson: SeedLesson): SeedLesson {
   }
   writeDB(db);
   return lesson;
+}
+
+// Video Shadowing & Dictation Lessons
+export function getAllVideoLessons(): VideoLesson[] {
+  const db = readDB();
+  const custom = db.customVideos || [];
+  const deleted = new Set(db.deletedVideoIds || []);
+  return [...SEED_VIDEO_LESSONS, ...custom].filter(
+    (v) => !deleted.has(v.id) && !deleted.has(v.slug) && !deleted.has(v.youtubeId)
+  );
+}
+
+export function getVideoLessonById(idOrSlug: string): VideoLesson | undefined {
+  const all = getAllVideoLessons();
+  return all.find(
+    (v) =>
+      v.id === idOrSlug ||
+      v.slug === idOrSlug ||
+      v.youtubeId === idOrSlug
+  );
+}
+
+export function saveCustomVideoLesson(video: VideoLesson): VideoLesson {
+  const db = readDB();
+  if (!db.customVideos) {
+    db.customVideos = [];
+  }
+  const idx = db.customVideos.findIndex(
+    (v) => v.id === video.id || v.slug === video.slug || v.youtubeId === video.youtubeId
+  );
+  if (idx >= 0) {
+    db.customVideos[idx] = video;
+  } else {
+    db.customVideos.unshift(video);
+  }
+  writeDB(db);
+  return video;
+}
+
+export function deleteVideoLesson(idOrSlug: string): boolean {
+  const db = readDB();
+  if (!db.deletedVideoIds) {
+    db.deletedVideoIds = [];
+  }
+  db.deletedVideoIds.push(idOrSlug);
+
+  if (db.customVideos) {
+    db.customVideos = db.customVideos.filter(
+      (v) => v.id !== idOrSlug && v.slug !== idOrSlug && v.youtubeId !== idOrSlug
+    );
+  }
+  writeDB(db);
+  return true;
+}
+
+export function updateVideoLesson(
+  idOrSlug: string,
+  updates: Partial<VideoLesson>
+): VideoLesson | null {
+  const db = readDB();
+  if (!db.customVideos) db.customVideos = [];
+
+  const customIdx = db.customVideos.findIndex(
+    (v) => v.id === idOrSlug || v.slug === idOrSlug || v.youtubeId === idOrSlug
+  );
+
+  if (customIdx !== -1) {
+    db.customVideos[customIdx] = { ...db.customVideos[customIdx], ...updates };
+    writeDB(db);
+    return db.customVideos[customIdx];
+  }
+
+  // If it's a seed video, copy to customVideos with updates and hide the seed
+  const seed = SEED_VIDEO_LESSONS.find(
+    (v) => v.id === idOrSlug || v.slug === idOrSlug || v.youtubeId === idOrSlug
+  );
+  if (seed) {
+    const updated: VideoLesson = { ...seed, ...updates, isCustom: true };
+    if (!db.deletedVideoIds) db.deletedVideoIds = [];
+    db.deletedVideoIds.push(seed.id);
+    db.customVideos.push(updated);
+    writeDB(db);
+    return updated;
+  }
+
+  return null;
 }
 
 // Deterministic Daily Plan Generator

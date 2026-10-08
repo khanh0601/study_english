@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Sparkles,
+  Video,
 } from "lucide-react";
 import { SessionUser } from "@/server/auth/session";
 import { AITutorWidget } from "@/components/chat/AITutorWidget";
@@ -37,6 +38,7 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
     { label: t("navDashboard"), href: "/dashboard", icon: LayoutDashboard },
     { label: t("navPlanner"), href: "/planner", icon: Calendar },
     { label: t("navLessons"), href: "/learn", icon: BookOpen },
+    { label: t("navVideoShadowing"), href: "/watch", icon: Video },
     { label: t("navReview"), href: "/review", icon: RotateCcw },
     { label: t("navMistakes"), href: "/mistakes", icon: BookMarked },
     { label: t("navVocabulary"), href: "/vocabulary", icon: FileText },
@@ -54,6 +56,7 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
     if (pathname === "/dashboard") return t("navDashboard");
     if (pathname.startsWith("/planner")) return t("navPlanner");
     if (pathname.startsWith("/learn")) return t("navLessons");
+    if (pathname.startsWith("/watch")) return t("navVideoShadowing");
     if (pathname.startsWith("/review")) return t("navReview");
     if (pathname.startsWith("/mistakes")) return t("navMistakes");
     if (pathname.startsWith("/vocabulary")) return t("navVocabulary");
@@ -187,7 +190,14 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
         <div className="pt-4 border-t border-[var(--border)] space-y-3">
           <div className="flex items-center justify-between px-2">
             <div className="truncate">
-              <p className="text-sm font-semibold truncate leading-tight">{user.name}</p>
+              <div className="flex items-center gap-1.5">
+                <p className="text-sm font-semibold truncate leading-tight">{user.name}</p>
+                {user.role === "admin" && (
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-[var(--foreground)] text-[var(--background)]">
+                    ADMIN
+                  </span>
+                )}
+              </div>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="inline-block px-1.5 py-0.5 text-[10px] font-mono bg-[var(--surface-hover)] border border-[var(--border)] rounded-[4px] text-[var(--muted-subtle)] font-medium">
                   {t("level")} {user.level}
@@ -226,6 +236,11 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
             <div className="flex items-center gap-2 text-xs font-mono text-[var(--muted)]">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span className="font-medium text-[var(--foreground)]">{user.name}</span>
+              {user.role === "admin" && (
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[var(--foreground)] text-[var(--background)]">
+                  ADMIN
+                </span>
+              )}
               <span className="px-1.5 py-0.5 rounded bg-[var(--surface)] border border-[var(--border)] text-[10px]">
                 {user.level}
               </span>
