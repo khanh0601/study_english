@@ -237,6 +237,34 @@ export function DashboardClient({
         </div>
       </div>
 
+      {/* Micro Roleplay Feature Card */}
+      <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[14px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[var(--border-strong)] transition-colors shadow-xs">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-mono uppercase bg-[var(--surface-hover)] border border-[var(--border)] text-[var(--muted-subtle)] font-medium">
+              Thực hành giao tiếp
+            </span>
+            <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+              ● Mới
+            </span>
+          </div>
+          <h3 className="font-bold text-base text-[var(--foreground)]">
+            Hội thoại nhập vai công sở (Micro Roleplay)
+          </h3>
+          <p className="text-xs text-[var(--muted)] max-w-xl leading-relaxed">
+            Thực hành phản xạ 3–5 lượt với đồng nghiệp / Tech Lead bản xứ (Standup, thương lượng lương, xin dời deadline). AI nhận xét và sửa câu ngay tức thì.
+          </p>
+        </div>
+
+        <Link
+          href="/roleplay"
+          className="inline-flex items-center justify-center gap-2 px-5 h-[40px] rounded-[10px] bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-semibold hover:bg-[#262626] transition-colors shrink-0 shadow-xs"
+        >
+          <span>Vào hội thoại</span>
+          <ArrowRight size={14} />
+        </Link>
+      </div>
+
       {/* Featured Curriculum Topics */}
       <div className="space-y-4 pt-4 border-t border-[var(--border)]">
         <div className="flex items-center justify-between">

@@ -670,6 +670,17 @@ export function addVocabulary(
   return newVocab;
 }
 
+export function deleteVocabulary(id: string, userId: string): boolean {
+  const db = readDB();
+  const initialLen = db.vocabulary.length;
+  db.vocabulary = db.vocabulary.filter((v) => !(v.id === id && v.userId === userId));
+  if (db.vocabulary.length !== initialLen) {
+    writeDB(db);
+    return true;
+  }
+  return false;
+}
+
 // Statistics Aggregator
 export function getUserStatistics(userId: string) {
   const db = readDB();

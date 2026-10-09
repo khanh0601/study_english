@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { LanguageProvider } from "@/i18n/LanguageContext";
+import { TextSelectionTooltip } from "@/components/dictionary/TextSelectionTooltip";
 import "./globals.css";
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${mono.variable} min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased`}>
         <LanguageProvider>
           {children}
+          <TextSelectionTooltip />
         </LanguageProvider>
       </body>
     </html>

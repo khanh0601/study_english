@@ -16,11 +16,11 @@ import {
   X,
   Sparkles,
   Video,
+  MessagesSquare,
 } from "lucide-react";
 import { SessionUser } from "@/server/auth/session";
 import { AITutorWidget } from "@/components/chat/AITutorWidget";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
-import { TextSelectionTooltip } from "@/components/dictionary/TextSelectionTooltip";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface AppShellProps {
@@ -39,7 +39,8 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
     { label: t("navDashboard"), href: "/dashboard", icon: LayoutDashboard },
     { label: t("navPlanner"), href: "/planner", icon: Calendar },
     { label: t("navLessons"), href: "/learn", icon: BookOpen },
-    { label: t("navVideoShadowing"), href: "/watch", icon: Video },
+    {label: t("navVideoShadowing"), href: "/watch", icon: Video },
+    { label: t("navRoleplay"), href: "/roleplay", icon: MessagesSquare },
     { label: t("navReview"), href: "/review", icon: RotateCcw },
     { label: t("navMistakes"), href: "/mistakes", icon: BookMarked },
     { label: t("navVocabulary"), href: "/vocabulary", icon: FileText },
@@ -58,6 +59,7 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
     if (pathname.startsWith("/planner")) return t("navPlanner");
     if (pathname.startsWith("/learn")) return t("navLessons");
     if (pathname.startsWith("/watch")) return t("navVideoShadowing");
+    if (pathname.startsWith("/roleplay")) return t("navRoleplay");
     if (pathname.startsWith("/review")) return t("navReview");
     if (pathname.startsWith("/mistakes")) return t("navMistakes");
     if (pathname.startsWith("/vocabulary")) return t("navVocabulary");
@@ -80,7 +82,6 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
         </header>
         {children}
         <AITutorWidget />
-        <TextSelectionTooltip />
       </main>
     );
   }
@@ -257,9 +258,6 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
 
       {/* Floating AI Tutor Assistant (accessible on any page except when already on /tutor) */}
       {pathname !== "/tutor" && <AITutorWidget />}
-
-      {/* Global Text Selection Lookup & Vocabulary Saver */}
-      <TextSelectionTooltip />
     </div>
   );
 }

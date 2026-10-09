@@ -7,7 +7,6 @@ import {
   Check,
   X,
   Loader2,
-  Sparkles,
   ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
@@ -35,7 +34,6 @@ export function TextSelectionTooltip() {
 
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  // 1. Listen for mouse up / text selection across document
   useEffect(() => {
     function handleSelection(e: MouseEvent | TouchEvent) {
       // If clicking inside the tooltip, don't trigger re-selection
@@ -43,71 +41,83 @@ export function TextSelectionTooltip() {
         return;
       }
 
-      // Check if target is an interactive form element (input/textarea)
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-
-      // Small delay so selection is finalized
+      // Small delay so browser finalizes the range selection
       setTimeout(() => {
-        const selection = window.getSelection();
-        if (!selection || selection.isCollapsed) {
-          return;
-        }
-
-        const rawText = selection.toString().trim();
-        // Clean text (remove leading/trailing symbols)
-        const cleaned = rawText.replace(/^[“"'`(\[\{]+|[.,!?;:״”"')\]\}]+$/g, "").trim();
-
-        // Only activate if valid text: 1 to 6 words, >= 2 chars, letters/apostrophe/hyphen
-        const wordCount = cleaned.split(/\s+/).length;
-        if (!cleaned || cleaned.length < 2 || wordCount > 6) {
-          return;
-        }
-
-        // Get context sentence surrounding the selection
+        let rawText = "";
         let context = "";
-        try {
-          const anchorNode = selection.anchorNode;
-          if (anchorNode && anchorNode.textContent) {
-            context = anchorNode.textContent.trim().slice(0, 160);
+        let rect: DOMRect | null = null;
+
+        const target = e.target as HTMLElement | null;
+
+        // 1. Support selecting text inside inputs/textareas
+        if (
+          target &&
+          (target.tagName === "INPUT" || target.tagName === "TEXTAREA")
+        ) {
+          const inputEl = target as HTMLInputElement | HTMLTextAreaElement;
+          const start = inputEl.selectionStart;
+          const end = inputEl.selectionEnd;
+          if (start !== null && end !== null && start !== end) {
+            rawText = inputEl.value.substring(start, end).trim();
+            context = inputEl.value.slice(0, 200);
+            rect = inputEl.getBoundingClientRect();
           }
-        } catch {
-          // ignore
         }
 
-        const range = selection.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
+        // 2. Standard DOM selection across any element (p, span, div, h1-h4, etc.)
+        if (!rawText) {
+          const selection = window.getSelection();
+          if (!selection || selection.isCollapsed) {
+            return;
+          }
 
-        if (rect.width === 0 && rect.height === 0) return;
+          rawText = selection.toString().trim();
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            rect = range.getBoundingClientRect();
 
-        // Calculate Tooltip Coordinates
-        const tooltipWidth = 320;
-        const tooltipHeight = 180;
+            try {
+              const anchorNode = selection.anchorNode;
+              if (anchorNode) {
+                const parentEl = anchorNode.parentElement;
+                context =
+                  parentEl?.textContent?.trim().slice(0, 200) ||
+                  anchorNode.textContent?.trim().slice(0, 160) ||
+                  "";
+              }
+            } catch {
+              // ignore
+            }
+          }
+        }
+
+        if (!rawText || !rect || (rect.width === 0 && rect.height === 0)) {
+          return;
+        }
+
+        // Clean text: strip leading/trailing quotes, parentheses, punctuation
+        const cleaned = rawText
+          .replace(/^[“"'`(\[\{]+|[.,!?;:״”"')\]\}]+$/g, "")
+          .trim();
+
+        // Validate text: between 2 characters and up to 8 words
+        const wordCount = cleaned.split(/\s+/).length;
+        if (!cleaned || cleaned.length < 2 || wordCount > 8) {
+          return;
+        }
+
+        // Calculate fixed viewport coordinates
         const viewportWidth = window.innerWidth;
+        const tooltipWidth = Math.min(320, viewportWidth - 24);
 
         let left = rect.left + rect.width / 2 - tooltipWidth / 2;
-        // Clamp to screen edges
-        left = Math.max(16, Math.min(viewportWidth - tooltipWidth - 16, left));
+        // Clamp horizontally within screen
+        left = Math.max(12, Math.min(viewportWidth - tooltipWidth - 12, left));
 
-        let top = 0;
-        let chosenPlacement: "top" | "bottom" = "top";
-
-        if (rect.top > tooltipHeight + 20) {
-          // Position above selection
-          top = rect.top - tooltipHeight - 8 + window.scrollY;
-          chosenPlacement = "top";
-        } else {
-          // Position below selection
-          top = rect.bottom + 8 + window.scrollY;
-          chosenPlacement = "bottom";
-        }
+        // Determine placement: above if space permits (> 200px), otherwise below
+        const spaceAbove = rect.top;
+        const chosenPlacement: "top" | "bottom" = spaceAbove > 200 ? "top" : "bottom";
+        const top = chosenPlacement === "top" ? rect.top - 8 : rect.bottom + 8;
 
         setSelectedText(cleaned);
         setContextSentence(context);
@@ -116,15 +126,14 @@ export function TextSelectionTooltip() {
         setIsOpen(true);
         setSaved(false);
 
-        // Fetch definition
+        // Fetch dictionary / AI definition
         fetchDefinition(cleaned, context);
-      }, 50);
+      }, 60);
     }
 
     // Dismiss on click outside
     function handleClickOutside(e: MouseEvent) {
       if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node)) {
-        // Also ensure user didn't just select new text
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) {
           setIsOpen(false);
@@ -214,7 +223,8 @@ export function TextSelectionTooltip() {
       if (res.ok) {
         setSaved(true);
       } else {
-        alert("Vui lòng đăng nhập để lưu từ vựng.");
+        const errorData = await res.json().catch(() => ({}));
+        alert(errorData.error || "Vui lòng đăng nhập để lưu từ vựng.");
       }
     } catch {
       alert("Lỗi khi lưu từ vựng.");
@@ -229,18 +239,19 @@ export function TextSelectionTooltip() {
     <div
       ref={tooltipRef}
       style={{
-        position: "absolute",
+        position: "fixed",
         top: `${position.top}px`,
         left: `${position.left}px`,
-        width: "320px",
+        transform: placement === "top" ? "translateY(-100%)" : "translateY(0)",
+        zIndex: 99999,
       }}
-      className="z-50 bg-[var(--surface-raised)] border border-[var(--border-strong)] rounded-[14px] shadow-2xl p-4 space-y-3 animate-in fade-in zoom-in-95 duration-150 text-[var(--foreground)] backdrop-blur-md"
+      className="w-[320px] max-w-[calc(100vw-24px)] bg-[var(--surface-raised)] border border-[var(--border-strong)] rounded-[14px] shadow-2xl p-4 space-y-3 animate-in fade-in zoom-in-95 duration-150 text-[var(--foreground)]"
     >
       {/* Header: Word, Phonetic, Part of speech, Audio button & Close */}
       <div className="flex items-start justify-between gap-2 border-b border-[var(--border)] pb-2.5">
         <div className="space-y-0.5 min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-bold text-base text-[var(--foreground)] tracking-tight truncate max-w-[200px]">
+            <span className="font-bold text-base text-[var(--foreground)] tracking-tight truncate max-w-[190px]">
               {definition?.word || selectedText}
             </span>
 
@@ -284,7 +295,7 @@ export function TextSelectionTooltip() {
         {loading ? (
           <div className="py-3 flex items-center justify-center gap-2 text-xs text-[var(--muted)] font-mono">
             <Loader2 size={14} className="animate-spin" />
-            <span>Đang tra cứu nghĩa AI...</span>
+            <span>Đang tra cứu từ điển AI...</span>
           </div>
         ) : (
           <>
@@ -303,6 +314,14 @@ export function TextSelectionTooltip() {
               <p className="text-xs text-[var(--muted)] italic leading-relaxed pt-1 border-t border-[var(--border)]">
                 "{definition.explanationEn}"
               </p>
+            )}
+
+            {/* Example sentence if available */}
+            {definition?.exampleEn && (
+              <div className="pt-1 text-[11px] text-[var(--muted-subtle)] space-y-0.5">
+                <span className="font-semibold text-[var(--foreground)]">Ví dụ: </span>
+                <span className="italic">{definition.exampleEn}</span>
+              </div>
             )}
           </>
         )}
