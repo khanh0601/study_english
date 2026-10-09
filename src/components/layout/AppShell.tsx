@@ -20,6 +20,7 @@ import {
 import { SessionUser } from "@/server/auth/session";
 import { AITutorWidget } from "@/components/chat/AITutorWidget";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { TextSelectionTooltip } from "@/components/dictionary/TextSelectionTooltip";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface AppShellProps {
@@ -79,6 +80,7 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
         </header>
         {children}
         <AITutorWidget />
+        <TextSelectionTooltip />
       </main>
     );
   }
@@ -255,6 +257,9 @@ export function AppShell({ user, children, hideSidebar = false }: AppShellProps)
 
       {/* Floating AI Tutor Assistant (accessible on any page except when already on /tutor) */}
       {pathname !== "/tutor" && <AITutorWidget />}
+
+      {/* Global Text Selection Lookup & Vocabulary Saver */}
+      <TextSelectionTooltip />
     </div>
   );
 }

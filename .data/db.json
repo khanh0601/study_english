@@ -218,6 +218,15 @@
   ],
   "vocabulary": [
     {
+      "id": "voc-1791442915063",
+      "userId": "user-default-1",
+      "phrase": "connect the dots",
+      "meaningVi": "hiểu rõ sự liên quan giữa các sự việc",
+      "exampleEn": "You can only connect the dots looking backwards.",
+      "topic": "Quick Lookup",
+      "createdAt": "2026-10-08T07:01:55.063Z"
+    },
+    {
       "id": "voc-1",
       "userId": "user-default-1",
       "phrase": "reschedule the meeting to...",

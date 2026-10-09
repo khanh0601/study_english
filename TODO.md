@@ -68,6 +68,19 @@
   - Nút **Sửa thông tin video** (Edit) và **Xóa video** (Delete) trực tiếp trên từng thẻ video trong thư viện (bảo vệ bằng server-side session check tại `/api/videos/[id]`).
   - Học viên thông thường (`role: "user"`) có giao diện sạch sẽ, tập trung 100% vào việc học, không bị lộ các tính năng quản trị.
 
+### 📖 Hạng mục 6: Bôi đen tra từ & Lưu vào Sổ từ vựng tức thì (Instant Highlight & Save Tooltip) [HOÀN THÀNH ✓]
+- [x] **Tooltip tra cứu nổi tự động khi bôi đen (Global Selection Tooltip):**
+  - Nhận diện khi người dùng quét chuột/chọn từ (từ 1 đến 6 từ) tại bất kỳ vị trí nào trên ứng dụng (Phụ đề video, Câu luyện tập, Lý thuyết, Sổ tay lỗi sai).
+  - Tự động hiển thị thẻ nổi (floating popover) ngay phía trên cụm từ được chọn theo phong cách Monochrome tối giản.
+- [x] **Giải nghĩa ngữ cảnh bằng AI (Contextual AI Dictionary API):**
+  - API `/api/dictionary/lookup` sử dụng Gemini AI phân tích phiên âm IPA chuẩn, từ loại (`noun`, `verb`, `idiom`), nghĩa tiếng Việt súc tích và giải thích đơn giản bằng tiếng Anh.
+  - Tích hợp bộ nhớ đệm (in-memory cache) giúp tra cứu các từ quen thuộc với độ trễ 0ms.
+- [x] **Nghe phát âm chuẩn (Native Audio Pronunciation):**
+  - Nút icon Loa (`Volume2`) phát âm chuẩn tiếng Anh Mỹ ngay trong popover qua Web Speech Synthesis API.
+- [x] **1-Click Lưu vào Sổ từ vựng (Save to Vocabulary Bank):**
+  - Nút *"Lưu từ này"* đẩy từ, nghĩa tiếng Việt và câu ví dụ ngữ cảnh thẳng vào Sổ tay từ vựng ([`/vocabulary`](file:///Users/kelvin/Desktop/study-english/src/app/vocabulary)).
+  - Đổi trạng thái trực quan *"Đã lưu vào Sổ từ ✓"* để người học yên tâm ôn tập ngắt quãng sau này.
+
 ---
 
 ## 2. Kiến trúc giải pháp Âm thanh (Audio Architecture ADR)

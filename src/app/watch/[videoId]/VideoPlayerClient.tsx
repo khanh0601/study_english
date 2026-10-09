@@ -507,10 +507,15 @@ export function VideoPlayerClient({ video, userId }: VideoPlayerClientProps) {
                 {/* English Text (revealed in Shadowing and Translate, hidden in Dictation) */}
                 {sentenceMode !== "dictation" ? (
                   <div className="pt-2 border-t border-[var(--border)] space-y-1">
-                    <span className="text-xs font-mono uppercase text-[var(--muted)] font-semibold">
-                      Target English Sentence:
-                    </span>
-                    <p className="text-xl md:text-2xl font-bold text-[var(--foreground)] tracking-tight leading-relaxed">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono uppercase text-[var(--muted)] font-semibold">
+                        Target English Sentence:
+                      </span>
+                      <span className="text-[11px] font-mono text-[var(--muted)] hidden sm:inline">
+                        ✨ Bôi đen từ để tra nghĩa & lưu
+                      </span>
+                    </div>
+                    <p className="text-xl md:text-2xl font-bold text-[var(--foreground)] tracking-tight leading-relaxed select-text cursor-text">
                       "{activeSentence.textEn}"
                     </p>
                   </div>
@@ -698,15 +703,18 @@ export function VideoPlayerClient({ video, userId }: VideoPlayerClientProps) {
             </div>
 
             {/* Scrollable Sentence List */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1 select-none">
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1 select-text">
               {video.sentences.map((sent, idx) => {
                 const isActive = idx === currentIndex;
 
                 return (
-                  <button
+                  <div
                     key={sent.id}
-                    type="button"
-                    onClick={() => seekToSentence(idx, true)}
+                    onClick={() => {
+                      const sel = window.getSelection()?.toString().trim();
+                      if (sel) return;
+                      seekToSentence(idx, true);
+                    }}
                     className={`w-full text-left p-3 rounded-[10px] border transition-all cursor-pointer flex flex-col gap-1 ${
                       isActive
                         ? "border-[var(--foreground)] bg-[var(--surface-hover)] shadow-xs"
@@ -743,7 +751,7 @@ export function VideoPlayerClient({ video, userId }: VideoPlayerClientProps) {
                     <p className="text-[11px] text-[var(--muted)] line-clamp-1">
                       {sent.textVi}
                     </p>
-                  </button>
+                  </div>
                 );
               })}
             </div>
